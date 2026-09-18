@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews &amp; Messages — Kheen Junior School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+  /* ============ TOKENS (shared with main site) ============ */
+  :root{
+    --deep-green:#0B3D2E;
+    --mid-green:#1F6E4F;
+    --leaf-green:#3F9463;
+    --sage-bg:#F1F5EE;
+    --cream:#FBF8F1;
+    --gold:#C9A227;
+    --gold-soft:#E4C766;
+    --ink:#152A1F;
+    --ink-soft:#4C5F53;
+    --line:#D9E2D4;
+    --display:'Fraunces', serif;
+    --body:'Manrope', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--body);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+  section{position:relative;}
+  .eyebrow{font-family:var(--body);font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:.72rem;color:var(--mid-green);}
+  h1,h2,h3{font-family:var(--display);font-weight:600;color:var(--deep-green);letter-spacing:-.01em;}
+  .lede{color:var(--ink-soft);font-size:1.02rem;max-width:56ch;}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none;transition:none;} html{scroll-behavior:auto;} }
+
+  .star{
+    display:inline-block;width:1em;height:1em;
+    background: conic-gradient(from 22.5deg, var(--gold) 0 45deg, transparent 45deg 90deg),
+      conic-gradient(var(--gold) 0 45deg, transparent 45deg 90deg);
+    -webkit-mask: radial-gradient(circle, #000 55%, transparent 56%);
+    mask: radial-gradient(circle, #000 55%, transparent 56%);
+  }
+  .lattice-divider{
+    height:34px;background-repeat:repeat-x;background-size:34px 34px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%23C9A227' stroke-width='1'%3E%3Cpath d='M17 1 L33 17 L17 33 L1 17 Z'/%3E%3Cpath d='M17 8 L26 17 L17 26 L8 17 Z'/%3E%3C/g%3E%3C/svg%3E");
+    opacity:.55;
+  }
+
+  /* ============ HEADER ============ */
+  header{position:sticky;top:0;z-index:50;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1160px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .badge-slot{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:var(--deep-green);overflow:hidden;flex-shrink:0;}
+  .badge-slot img{width:100%;height:100%;object-fit:cover;}
+  .badge-slot .fallback{color:var(--gold-soft);font-size:.6rem;font-family:var(--body);font-weight:700;text-align:center;letter-spacing:.02em;}
+  .brand-name{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-name strong{font-family:var(--display);font-size:1.02rem;color:var(--deep-green);letter-spacing:.01em;}
+  .brand-name span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+  nav.links{display:flex;gap:26px;}
+  nav.links a{font-size:.86rem;font-weight:600;color:var(--ink-soft);position:relative;padding:4px 0;}
+  nav.links a:hover, nav.links a.active{color:var(--deep-green);}
+  nav.links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--gold);transition:width .25s ease;}
+  nav.links a:hover::after, nav.links a.active::after{width:100%;}
+  .nav-cta{background:var(--deep-green);color:var(--cream);padding:9px 18px;border-radius:8px;font-size:.82rem;font-weight:700;border:1px solid var(--deep-green);}
+  .nav-cta:hover{background:var(--mid-green);border-color:var(--mid-green);}
+
+  /* ============ PAGE HERO ============ */
+  .page-hero{
+    background:radial-gradient(circle at 50% 0%, rgba(201,162,39,.14), transparent 45%),
+      linear-gradient(160deg, var(--deep-green) 0%, #0e4a37 55%, var(--mid-green) 100%);
+    color:var(--cream);padding:70px 0 46px;text-align:center;position:relative;overflow:hidden;
+  }
+  .page-hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23C9A227' stroke-width='.6' opacity='0.35'%3E%3Cpath d='M60 4 L116 60 L60 116 L4 60 Z'/%3E%3Cpath d='M60 26 L94 60 L60 94 L26 60 Z'/%3E%3Ccircle cx='60' cy='60' r='6'/%3E%3C/g%3E%3C/svg%3E");
+    background-size:120px 120px;opacity:.3;pointer-events:none;
+  }
+  .page-hero .inner{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:0 28px;}
+  .page-hero .eyebrow{color:var(--gold-soft);}
+  .page-hero h1{color:var(--cream);font-size:clamp(2rem,4vw,2.8rem);margin:12px 0 10px;}
+  .page-hero p{color:#DCE9DF;font-size:.98rem;}
+
+  /* ============ SECTIONS ============ */
+  .sec{padding:64px 0;}
+  .sec-head{max-width:640px;margin-bottom:30px;}
+  .sec-head h2{font-size:clamp(1.5rem,2.6vw,1.9rem);margin:8px 0 10px;}
+  .alt{background:var(--sage-bg);}
+
+  /* ============ FORM + SIDE PANEL LAYOUT ============ */
+  .review-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:start;}
+
+  .form-card{
+    background:var(--cream);border:1px solid var(--line);border-radius:18px;
+    padding:34px 32px;box-shadow:0 24px 50px -32px rgba(11,61,46,.3);
+  }
+  .field{margin-bottom:20px;}
+  .field label{display:block;font-size:.8rem;font-weight:700;color:var(--deep-green);margin-bottom:7px;letter-spacing:.02em;}
+  .field input,
+  .field textarea,
+  .field select{
+    width:100%;padding:12px 14px;border-radius:9px;border:1.5px solid var(--line);
+    font-family:var(--body);font-size:.92rem;color:var(--ink);background:#fff;
+    transition:border-color .2s ease;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus{outline:none;border-color:var(--leaf-green);}
+  .field textarea{resize:vertical;min-height:120px;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+
+  /* star rating input */
+  .rating{display:flex;gap:6px;flex-direction:row-reverse;justify-content:flex-end;}
+  .rating input{display:none;}
+  .rating label{
+    cursor:pointer;width:30px;height:30px;
+    color:var(--line);
+    transition:color .15s ease;
+  }
+  .rating label svg{width:100%;height:100%;}
+  .rating input:checked ~ label,
+  .rating label:hover,
+  .rating label:hover ~ label{color:var(--gold);}
+
+  .btn{padding:13px 26px;border-radius:9px;font-weight:700;font-size:.9rem;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;border:none;cursor:pointer;font-family:var(--body);}
+  .btn-gold{background:var(--gold);color:var(--deep-green);}
+  .btn-gold:hover{background:var(--gold-soft);transform:translateY(-2px);}
+  .btn-outline{border:1.5px solid var(--line);color:var(--ink-soft);background:transparent;}
+  .btn-outline:hover{border-color:var(--leaf-green);color:var(--deep-green);}
+
+  .form-note{font-size:.78rem;color:var(--ink-soft);margin-top:14px;}
+
+  .form-success{
+    display:none;background:var(--sage-bg);border:1.5px solid var(--leaf-green);
+    border-radius:12px;padding:18px 20px;margin-bottom:20px;color:var(--deep-green);
+    font-size:.88rem;font-weight:600;
+  }
+  .form-success.show{display:block;}
+
+  /* side panel */
+  .side-card{
+    background:linear-gradient(135deg, var(--deep-green), var(--mid-green));
+    color:var(--cream);border-radius:18px;padding:30px 28px;margin-bottom:20px;
+  }
+  .side-card h3{color:var(--cream);font-size:1.1rem;margin-bottom:10px;}
+  .side-card p{color:#D6E4DA;font-size:.86rem;margin-bottom:16px;}
+  .side-card .c-line{display:flex;align-items:center;gap:10px;font-size:.86rem;color:#E4EEE7;margin-bottom:10px;}
+  .side-card .c-line strong{color:var(--gold-soft);}
+
+  .testi-card{
+    background:var(--cream);border:1px solid var(--line);border-radius:14px;
+    padding:20px 20px 18px;margin-bottom:14px;
+  }
+  .testi-stars{display:flex;gap:2px;margin-bottom:10px;}
+  .testi-stars svg{width:15px;height:15px;color:var(--gold);}
+  .testi-card p{font-size:.88rem;color:var(--ink-soft);margin-bottom:10px;font-style:italic;}
+  .testi-card .who{font-size:.8rem;font-weight:700;color:var(--deep-green);}
+
+  /* ============ FOOTER ============ */
+  footer{background:var(--deep-green);color:#BFDACB;padding:54px 0 26px;}
+  .foot-top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:36px;padding-bottom:36px;border-bottom:1px solid rgba(201,162,39,.2);}
+  .foot-brand{display:flex;gap:12px;align-items:center;margin-bottom:14px;}
+  .foot-brand strong{font-family:var(--display);color:var(--cream);font-size:1.05rem;}
+  footer h4{color:var(--gold-soft);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+  footer ul li{margin-bottom:9px;font-size:.86rem;}
+  footer ul li a:hover{color:var(--gold-soft);}
+  .foot-bottom{padding-top:22px;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:#8FB39D;flex-wrap:wrap;gap:10px;}
+
+  @media (max-width:920px){
+    nav.links{display:none;}
+    .review-layout{grid-template-columns:1fr;}
+    .foot-top{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .field-row{grid-template-columns:1fr;}
+    .form-card{padding:26px 20px;}
+    .sec{padding:48px 0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="badge-slot">
+        <img src="images/badge.png" alt="Kheen Junior School badge" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="fallback" style="display:none;">BADGE</div>
+      </div>
+      <div class="brand-name">
+        <strong>Kheen Junior School</strong>
+        <span>Wisdom for Legacy</span>
+      </div>
+    </div>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#activities">Activities</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="reviews.html" class="active">Reviews</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <a href="index.html#contact" class="nav-cta">Enquire Now</a>
+  </div>
+</header>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero">
+  <div class="inner">
+    <span class="eyebrow">We'd love to hear from you</span>
+    <h1>Reviews &amp; Messages</h1>
+    <p>Share a message, question, or a review of your experience with Kheen Junior School. It goes straight to our school office.</p>
+  </div>
+  <div class="lattice-divider" style="margin-top:36px;"></div>
+</section>
+
+<!-- ============ FORM SECTION ============ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="review-layout">
+
+      <!-- FORM -->
+      <div class="form-card reveal">
+        <div class="form-success" id="formSuccess">
+          ✓ Thank you! Your message has been sent to the school office.
+        </div>
+
+        <!--
+          HOW TO CONNECT THIS FORM TO YOUR SCHOOL EMAIL (pick ONE option):
+
+          OPTION A — Formspree (recommended, free, no code needed):
+            1. Go to https://formspree.io and sign up using the school's email address.
+            2. Create a new form; Formspree gives you an endpoint like:
+               https://formspree.io/f/xxxxabcd
+            3. Replace the action="" URL below with that endpoint.
+            4. Every submission will arrive by email at the address you signed up with.
+
+          OPTION B — mailto fallback (zero setup, opens the visitor's own email app):
+            This page already includes a JS fallback further down that builds a
+            mailto: link. It works everywhere but depends on the visitor having
+            an email app configured, so Formspree (Option A) is the better choice
+            for a real school website.
+        -->
+        <form id="reviewForm" action="https://formspree.io/f/REPLACE_WITH_YOUR_FORMSPREE_ID" method="POST">
+
+          <div class="field-row">
+            <div class="field">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="field">
+              <label for="role">I am a...</label>
+              <select id="role" name="role">
+                <option value="Parent">Parent / Guardian</option>
+                <option value="Student">Student</option>
+                <option value="Alumni">Alumni</option>
+                <option value="Visitor">Visitor</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="kheenjuniorschool@gmail.com" required>
+            </div>
+            <div class="field">
+              <label for="phone">Phone Number (optional)</label>
+              <input type="tel" id="phone" name="phone" placeholder="+256 7xx xxxxxx">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Rate Your Experience</label>
+            <div class="rating">
+              <input type="radio" id="r5" name="rating" value="5"><label for="r5" title="5 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></label>
+              <input type="radio" id="r4" name="rating" value="4"><label for="r4" title="4 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></label>
+              <input type="radio" id="r3" name="rating" value="3"><label for="r3" title="3 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></label>
+              <input type="radio" id="r2" name="rating" value="2"><label for="r2" title="2 stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></label>
+              <input type="radio" id="r1" name="rating" value="1"><label for="r1" title="1 star"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="message">Your Message / Review</label>
+            <textarea id="message" name="message" placeholder="Tell us about your experience, ask a question, or leave your feedback..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-gold">Send Message</button>
+          <p class="form-note">Your message is sent directly to the Kheen Junior School office email. We usually respond within 1–2 working days.</p>
+        </form>
+      </div>
+
+      <!-- SIDE PANEL -->
+      <div class="reveal">
+        <div class="side-card">
+          <span class="star" style="width:20px;height:20px;"></span>
+          <h3>Prefer to call?</h3>
+          <p>Our office team is happy to speak with you directly.</p>
+          <div class="c-line"><strong>Headteacher:</strong> +256 753 100150</div>
+          <div class="c-line"><strong>Office:</strong> +256 703 634440</div>
+          <div class="c-line"><strong>Admissions:</strong> +256 776 420630</div>
+        </div>
+
+        <h3 style="font-size:1.05rem;margin-bottom:14px;">What families are saying</h3>
+        <!-- INSERT / EDIT REAL PARENT REVIEWS HERE -->
+        <div class="testi-card">
+          <div class="testi-stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p>"kheen junior school is for everyone, i really appreciate "</p>
+          <div class="who">— Nakigudde Jeniffer</div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <p>"Am a proud parent of Kheen Junior School"</p>
+          <div class="who">— Kigozi Fahad</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">
+          <div class="badge-slot" style="width:40px;height:40px;">
+            <img src="images/badge.png" alt="Kheen Junior School badge" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="fallback" style="display:none;font-size:.5rem;">BADGE</div>
+          </div>
+          <strong>Kheen Junior School</strong>
+        </div>
+        <p style="font-size:.86rem;max-width:32ch;">Elite Village, Luwunga, Kakiri Subcounty. "Wisdom for Legacy."</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="index.html#activities">Activities</a></li>
+          <li><a href="gallery.html">Photo Gallery</a></li>
+          <li><a href="reviews.html">Reviews &amp; Messages</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>Headteacher: +256 753 100150</li>
+          <li>Office: +256 703 634440</li>
+          <li>Admissions: +256 776 420630</li>
+          <li>Elite Village, Luwunga, Kakiri Subcounty</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Kheen Junior School. All rights reserved.</span>
+      <span>Wisdom for Legacy</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Form handling: tries Formspree (fetch), falls back to mailto if that endpoint
+  // hasn't been set up yet, so the form is never a dead end.
+  const form = document.getElementById('reviewForm');
+  const successBox = document.getElementById('formSuccess');
+  const SCHOOL_EMAIL = 'kheenjuniorschool@gmail.com'; // <-- set the real school email here for the mailto fallback
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const data = new FormData(form);
+    const actionUrl = form.getAttribute('action');
+    const isConfigured = actionUrl && !actionUrl.includes('REPLACE_WITH_YOUR_FORMSPREE_ID');
+
+    if(isConfigured){
+      try{
+        const res = await fetch(actionUrl, {
+          method:'POST',
+          body:data,
+          headers:{ 'Accept':'application/json' }
+        });
+        if(res.ok){
+          form.reset();
+          successBox.classList.add('show');
+          successBox.scrollIntoView({behavior:'smooth', block:'center'});
+          return;
+        }
+      }catch(err){ /* fall through to mailto */ }
+    }
+
+    // Fallback: open the visitor's email app pre-filled, addressed to the school.
+    const subject = encodeURIComponent('Website message from ' + (data.get('name') || 'Website Visitor'));
+    const bodyLines = [
+      'Name: ' + data.get('name'),
+      'Role: ' + data.get('role'),
+      'Email: ' + data.get('email'),
+      'Phone: ' + (data.get('phone') || '-'),
+      'Rating: ' + (data.get('rating') || '-') + ' / 5',
+      '',
+      data.get('message')
+    ];
+    const body = encodeURIComponent(bodyLines.join('\n'));
+    window.location.href = 'mailto:' + SCHOOL_EMAIL + '?subject=' + subject + '&body=' + body;
+  });
+</script>
+
+</body>
+</html>

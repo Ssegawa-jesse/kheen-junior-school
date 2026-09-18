@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kheen Junior School — Wisdom for Legacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+  /* ============ TOKENS ============ */
+  :root{
+    --deep-green:#0B3D2E;
+    --mid-green:#1F6E4F;
+    --leaf-green:#3F9463;
+    --sage-bg:#F1F5EE;
+    --cream:#FBF8F1;
+    --gold:#C9A227;
+    --gold-soft:#E4C766;
+    --ink:#152A1F;
+    --ink-soft:#4C5F53;
+    --line:#D9E2D4;
+
+    --display:'Fraunces', serif;
+    --body:'Manrope', sans-serif;
+
+    --arch: 999px 999px 8px 8px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+  section{position:relative;}
+  .eyebrow{
+    font-family:var(--body);
+    font-weight:800;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    font-size:.72rem;
+    color:var(--mid-green);
+  }
+  h1,h2,h3{font-family:var(--display);font-weight:600;color:var(--deep-green);letter-spacing:-.01em;}
+  .lede{color:var(--ink-soft);font-size:1.02rem;max-width:56ch;}
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ============ STAR MOTIF (signature element) ============ */
+  /* 8-point khatam star used as recurring device: nav dot, dividers, card corners */
+  .star{
+    display:inline-block;width:1em;height:1em;
+    background: conic-gradient(from 22.5deg,
+      var(--gold) 0 45deg, transparent 45deg 90deg) ,
+      conic-gradient(var(--gold) 0 45deg, transparent 45deg 90deg);
+    -webkit-mask: radial-gradient(circle, #000 55%, transparent 56%);
+    mask: radial-gradient(circle, #000 55%, transparent 56%);
+  }
+  .star-svg{display:block;}
+
+  .lattice-divider{
+    height:34px;
+    background-repeat:repeat-x;
+    background-size:34px 34px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%23C9A227' stroke-width='1'%3E%3Cpath d='M17 1 L33 17 L17 33 L1 17 Z'/%3E%3Cpath d='M17 8 L26 17 L17 26 L8 17 Z'/%3E%3C/g%3E%3C/svg%3E");
+    opacity:.55;
+  }
+
+  /* ============ HEADER ============ */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(251,248,241,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 28px;max-width:1160px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .badge-slot{
+    width:48px;height:48px;border-radius:50%;
+    border:1.5px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    background:var(--deep-green);
+    overflow:hidden;flex-shrink:0;
+  }
+  .badge-slot img{width:100%;height:100%;object-fit:cover;}
+  .badge-slot .fallback{color:var(--gold-soft);font-size:.6rem;font-family:var(--body);font-weight:700;text-align:center;letter-spacing:.02em;}
+  .brand-name{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-name strong{font-family:var(--display);font-size:1.02rem;color:var(--deep-green);letter-spacing:.01em;}
+  .brand-name span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+  nav.links{display:flex;gap:28px;}
+  nav.links a{
+    font-size:.86rem;font-weight:600;color:var(--ink-soft);
+    position:relative;padding:4px 0;
+  }
+  nav.links a:hover{color:var(--deep-green);}
+  nav.links a::after{
+    content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--gold);
+    transition:width .25s ease;
+  }
+  nav.links a:hover::after{width:100%;}
+  .nav-cta{
+    background:var(--deep-green);color:var(--cream);
+    padding:9px 18px;border-radius:8px;font-size:.82rem;font-weight:700;
+    border:1px solid var(--deep-green);
+  }
+  .nav-cta:hover{background:var(--mid-green);border-color:var(--mid-green);}
+  .burger{display:none;}
+
+  /* ============ HERO (badge-centred medallion) ============ */
+  .hero{
+    background:
+      radial-gradient(circle at 50% 0%, rgba(201,162,39,.14), transparent 45%),
+      linear-gradient(160deg, var(--deep-green) 0%, #0e4a37 55%, var(--mid-green) 100%);
+    color:var(--cream);
+    padding:88px 0 0;
+    overflow:hidden;
+    position:relative;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23C9A227' stroke-width='.6' opacity='0.35'%3E%3Cpath d='M60 4 L116 60 L60 116 L4 60 Z'/%3E%3Cpath d='M60 26 L94 60 L60 94 L26 60 Z'/%3E%3Ccircle cx='60' cy='60' r='6'/%3E%3C/g%3E%3C/svg%3E");
+    background-size:120px 120px;
+    opacity:.3;
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative;z-index:2;
+    max-width:840px;margin:0 auto;padding:0 28px 90px;
+    display:flex;flex-direction:column;align-items:center;text-align:center;
+  }
+
+  /* the badge becomes the hero's signature visual: a large medallion
+     ringed by the star-lattice motif, sitting inside a mihrab-arch halo */
+  .badge-medallion{
+    position:relative;
+    width:min(220px, 46vw);
+    aspect-ratio:1;
+    margin-bottom:30px;
+  }
+  .badge-medallion .halo{
+    position:absolute;inset:-22px;
+    border-radius:50%;
+    border:1px dashed rgba(201,162,39,.55);
+    animation:spin 60s linear infinite;
+  }
+  .badge-medallion .halo::before,
+  .badge-medallion .halo::after{
+    content:"";position:absolute;inset:10px;border-radius:50%;
+    border:1px solid rgba(201,162,39,.3);
+  }
+  .badge-medallion .halo::after{inset:20px;}
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){ .badge-medallion .halo{ animation:none; } }
+
+  .badge-ring{
+    position:relative;z-index:2;
+    width:100%;height:100%;border-radius:50%;
+    border:2.5px solid var(--gold);
+    background:radial-gradient(circle at 35% 30%, #135241, var(--deep-green));
+    overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 30px 60px -18px rgba(0,0,0,.55), inset 0 0 0 6px rgba(251,248,241,.06);
+  }
+  .badge-ring img{width:100%;height:100%;object-fit:contain;padding:14px;}
+  .badge-ring .ph{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:8px;color:var(--gold-soft);text-align:center;padding:14px;font-size:.72rem;
+    letter-spacing:.06em;text-transform:uppercase;font-weight:700;
+  }
+
+  .hero-copy .eyebrow{color:var(--gold-soft);}
+  .hero-copy h1{
+    font-size:clamp(2.2rem, 4.4vw, 3.3rem);
+    color:var(--cream);
+    margin:14px 0 6px;
+    line-height:1.08;
+  }
+  .motto{
+    font-family:var(--display);font-style:italic;font-weight:500;
+    color:var(--gold-soft);font-size:clamp(1.15rem,2vw,1.5rem);
+    margin-bottom:18px;
+  }
+  .hero-copy p.lede{color:#DCE9DF;max-width:52ch;margin:0 auto;}
+  .hero-loc{
+    display:flex;gap:8px;align-items:center;justify-content:center;margin-top:18px;
+    font-size:.86rem;color:#CBDDD1;font-weight:600;
+  }
+  .hero-cta{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;justify-content:center;}
+  .btn{
+    padding:13px 24px;border-radius:9px;font-weight:700;font-size:.9rem;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:transform .2s ease, background .2s ease;
+  }
+  .btn-gold{background:var(--gold);color:var(--deep-green);}
+  .btn-gold:hover{background:var(--gold-soft);transform:translateY(-2px);}
+  .btn-outline{border:1.5px solid rgba(251,248,241,.5);color:var(--cream);}
+  .btn-outline:hover{border-color:var(--gold-soft);color:var(--gold-soft);transform:translateY(-2px);}
+
+  /* hero strip stats */
+  .hero-stats{
+    position:relative;z-index:2;
+    border-top:1px solid rgba(201,162,39,.25);
+    background:rgba(0,0,0,.14);
+  }
+  .hero-stats .wrap{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    padding:22px 28px;
+  }
+  .hero-stats .stat{text-align:center;border-right:1px solid rgba(201,162,39,.18);}
+  .hero-stats .stat:last-child{border-right:none;}
+  .hero-stats .stat strong{display:block;font-family:var(--display);color:var(--gold-soft);font-size:1.3rem;}
+  .hero-stats .stat span{font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;color:#BFDACB;font-weight:700;}
+
+  /* ============ ABOUT split (photo panel moved here) ============ */
+  .about-split{
+    display:grid;grid-template-columns:.85fr 1.15fr;gap:52px;align-items:center;
+  }
+  .about-frame{
+    position:relative;
+    border-radius: 18px;
+    border:2px solid var(--gold);
+    background:var(--sage-bg);
+    aspect-ratio: 4/5;
+    overflow:hidden;
+    box-shadow:0 30px 60px -22px rgba(11,61,46,.4);
+  }
+  .about-frame img{width:100%;height:100%;object-fit:cover;}
+  .about-frame .cap{
+    position:absolute;bottom:0;left:0;right:0;
+    padding:14px 16px 12px;
+    background:linear-gradient(0deg, rgba(11,61,46,.9), transparent);
+    font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-soft);font-weight:700;
+  }
+  .about-frame .ph{
+    width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;color:var(--ink-soft);text-align:center;padding:20px;
+  }
+
+  /* ============ SECTION HEADS ============ */
+  .sec{padding:88px 0;}
+  .sec-head{max-width:640px;margin-bottom:48px;}
+  .sec-head h2{font-size:clamp(1.8rem,3vw,2.4rem);margin:10px 0 12px;}
+  .alt{background:var(--sage-bg);}
+
+  /* ============ ABOUT / PILLARS ============ */
+  .pillars{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:32px;
+  }
+  .pillar{
+    background:var(--cream);border:1px solid var(--line);
+    border-radius:14px 14px 7px 7px;
+    padding:22px 18px 20px;text-align:left;
+    position:relative;
+  }
+  .pillar-icon{
+    width:42px;height:42px;margin-bottom:12px;
+    border-radius:50% 50% 6px 6px;
+    background:var(--deep-green);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .pillar h3{font-size:.98rem;margin-bottom:6px;color:var(--deep-green);}
+  .pillar p{font-size:.83rem;color:var(--ink-soft);}
+
+  /* ============ ACTIVITIES ============ */
+  .activity-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:20px;
+  }
+  .a-card{
+    background:var(--cream);border:1px solid var(--line);border-radius:14px;
+    padding:22px 20px 24px;transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    position:relative; overflow:hidden;
+  }
+  .a-card:hover{transform:translateY(-5px);box-shadow:0 18px 34px -18px rgba(11,61,46,.35);border-color:var(--leaf-green);}
+  .a-card .num{
+    font-family:var(--display);font-style:italic;color:var(--line);font-size:1.4rem;position:absolute;top:12px;right:16px;
+  }
+  .a-photo{
+    width:104px;height:104px;border-radius:50%;
+    border:2px solid var(--gold);
+    background:var(--sage-bg);
+    overflow:hidden;margin-bottom:16px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 24px -10px rgba(11,61,46,.4);
+  }
+  .a-photo img{width:100%;height:100%;object-fit:cover;}
+  .a-photo .ph{
+    width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+    color:var(--mid-green);
+  }
+  .a-photo .ph svg{width:34px;height:34px;}
+  .a-card h3{font-size:1.02rem;margin-bottom:6px;}
+  .a-card p{font-size:.84rem;color:var(--ink-soft);}
+
+  /* Bakery feature strip */
+  .feature-strip{
+    margin-top:34px;
+    display:grid;grid-template-columns:1fr 1fr;
+    background:var(--deep-green);border-radius:20px;overflow:hidden;
+    box-shadow:0 30px 50px -30px rgba(11,61,46,.6);
+  }
+  .feature-strip .fs-photo{
+    background:#0e4a37;min-height:280px;position:relative;overflow:hidden;
+  }
+  .feature-strip .fs-photo img{width:100%;height:100%;object-fit:cover;}
+  .feature-strip .fs-photo .ph{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;color:#9FC2AC;text-align:center;padding:20px;
+  }
+  .fs-copy{padding:36px 34px;color:var(--cream);display:flex;flex-direction:column;justify-content:center;}
+  .fs-copy .eyebrow{color:var(--gold-soft);}
+  .fs-copy h3{color:var(--cream);font-size:1.7rem;margin:10px 0 12px;}
+  .fs-copy p{color:#D6E4DA;font-size:.92rem;margin-bottom:18px;}
+  .fs-list{display:flex;flex-wrap:wrap;gap:10px;}
+  .fs-list span{
+    border:1px solid rgba(201,162,39,.5);color:var(--gold-soft);
+    padding:6px 12px;border-radius:20px;font-size:.76rem;font-weight:700;letter-spacing:.02em;
+  }
+
+  /* ============ TRANSPORT ============ */
+  .transport{
+    background:linear-gradient(135deg, var(--deep-green), var(--mid-green));
+    color:var(--cream);border-radius:22px;
+    padding:52px 44px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;
+  }
+  .transport h2{color:var(--cream);}
+  .transport .lede{color:#DCE9DF;}
+  .t-points{margin-top:20px;display:flex;flex-direction:column;gap:12px;}
+  .t-points li{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;color:#E4EEE7;}
+  .t-points .dot{
+    width:8px;height:8px;background:var(--gold);border-radius:2px;flex-shrink:0;margin-top:7px;transform:rotate(45deg);
+  }
+  .t-visual{
+    border:1.5px dashed rgba(251,248,241,.35);border-radius:16px;
+    min-height:220px;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:10px;text-align:center;padding:24px;color:#BFDACB;
+  }
+  .t-visual svg{width:64px;height:64px;color:var(--gold-soft);}
+
+  /* ============ LEADERSHIP (arch photo frames) ============ */
+  .leaders{display:grid;grid-template-columns:repeat(4,4fr);gap:34px;margin-top:20px;}
+  .leader{text-align:center;}
+  .leader-frame{
+    aspect-ratio:3/4;border-radius:170px 170px 10px 10px;
+    border:2px solid var(--gold);background:var(--sage-bg);
+    overflow:hidden;margin-bottom:18px;position:relative;
+    box-shadow:0 20px 40px -22px rgba(11,61,46,.4);
+  }
+  .leader-frame img{width:100%;height:100%;object-fit:cover;}
+  .leader-frame .ph{
+    width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:8px;color:var(--ink-soft);text-align:center;padding:18px;
+  }
+  .leader h3{font-size:1.08rem;margin-bottom:2px;}
+  .leader .role{color:var(--mid-green);font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+
+  /* ============ STAFF GROUP ============ */
+  .staff-frame{
+    margin-top:20px;border-radius:20px;overflow:hidden;
+    border:1px solid var(--line);
+    aspect-ratio:16/7;background:var(--sage-bg);position:relative;
+    box-shadow:0 24px 50px -30px rgba(11,61,46,.35);
+  }
+  .staff-frame img{width:100%;height:100%;object-fit:cover;}
+  .staff-frame .ph{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:10px;color:var(--ink-soft);text-align:center;
+  }
+  .staff-frame .cap{
+    position:absolute;left:0;right:0;bottom:0;padding:16px 22px;
+    background:linear-gradient(0deg, rgba(11,61,46,.85), transparent);
+    color:var(--cream);font-size:.82rem;font-weight:700;letter-spacing:.04em;
+  }
+
+  /* ============ CONTACT ============ */
+  .contact-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;margin-top:20px;}
+  .c-cards{display:flex;flex-direction:column;gap:14px;}
+  .c-card{
+    background:var(--cream);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;display:flex;align-items:center;gap:16px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .c-card:hover{border-color:var(--leaf-green);transform:translateX(4px);}
+  .c-card .ic{
+    width:42px;height:42px;border-radius:50%;background:var(--deep-green);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:var(--gold-soft);
+  }
+  .c-card strong{display:block;font-size:.95rem;color:var(--deep-green);}
+  .c-card span{font-size:.84rem;color:var(--ink-soft);}
+  .c-card a.num-link{font-weight:700;color:var(--mid-green);}
+
+  .socials{display:flex;gap:12px;margin-top:22px;}
+  .socials a{
+    width:42px;height:42px;border-radius:50%;border:1.5px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;color:var(--deep-green);
+    font-size:.78rem;font-weight:800;transition:background .2s ease,color .2s ease;
+  }
+  .socials a:hover{background:var(--gold);color:var(--deep-green);}
+
+  .map-card{
+    border-radius:16px;background:var(--deep-green);color:var(--cream);
+    padding:34px 30px;display:flex;flex-direction:column;justify-content:center;gap:14px;
+    min-height:100%;
+  }
+  .map-card h3{color:var(--cream);font-size:1.2rem;}
+  .map-card p{color:#D6E4DA;font-size:.88rem;}
+  .map-card .addr{
+    border-top:1px solid rgba(201,162,39,.3);padding-top:14px;margin-top:6px;font-size:.86rem;
+  }
+
+  /* ============ FOOTER ============ */
+  footer{background:var(--deep-green);color:#BFDACB;padding:54px 0 26px;}
+  .foot-top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:36px;padding-bottom:36px;border-bottom:1px solid rgba(201,162,39,.2);}
+  .foot-brand{display:flex;gap:12px;align-items:center;margin-bottom:14px;}
+  .foot-brand strong{font-family:var(--display);color:var(--cream);font-size:1.05rem;}
+  footer h4{color:var(--gold-soft);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+  footer ul li{margin-bottom:9px;font-size:.86rem;}
+  footer ul li a:hover{color:var(--gold-soft);}
+  .foot-bottom{
+    padding-top:22px;display:flex;justify-content:space-between;align-items:center;
+    font-size:.78rem;color:#8FB39D;flex-wrap:wrap;gap:10px;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:920px){
+    nav.links{display:none;}
+    .about-split{grid-template-columns:1fr;}
+    .about-frame{max-width:320px;margin:0 auto;}
+    .activity-grid{grid-template-columns:repeat(2,1fr);}
+    .feature-strip{grid-template-columns:1fr;}
+    .transport{grid-template-columns:1fr;padding:36px 26px;}
+    .leaders{grid-template-columns:1fr;max-width:340px;margin-left:auto;margin-right:auto;}
+    .contact-grid{grid-template-columns:1fr;}
+    .foot-top{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .pillars{grid-template-columns:1fr;}
+    .activity-grid{grid-template-columns:1fr;}
+    .hero-stats .wrap{grid-template-columns:repeat(2,1fr);gap:14px 0;}
+    .hero-stats .stat{border-right:none;border-bottom:1px solid rgba(201,162,39,.18);padding-bottom:10px;}
+    .sec{padding:64px 0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="badge-slot">
+        <!-- INSERT SCHOOL BADGE/CREST HERE — replace src -->
+        <img src="images/badge.png" alt="Kheen Junior School badge" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="fallback" style="display:none;">BADGE</div>
+      </div>
+      <div class="brand-name">
+        <strong>Kheen Junior School</strong>
+        <span>Wisdom for Legacy</span>
+      </div>
+    </div>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#activities">Activities</a>
+      <a href="#transport">Transport</a>
+      <a href="#leadership">Leadership</a>
+      <a href="#staff">Staff</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="nav-cta">Enquire Now</a>
+  </div>
+</header>
+
+<!-- ============ HERO (badge medallion) ============ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="badge-medallion reveal">
+      <div class="halo"></div>
+      <div class="badge-ring">
+        <!-- INSERT SCHOOL BADGE/CREST HERE — replace src. This is the hero's signature visual. -->
+        <img src="images/badge.png" alt="Kheen Junior School badge" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="ph" style="display:none;">
+          <span class="star" style="width:30px;height:30px;"></span>
+          School Badge
+        </div>
+      </div>
+    </div>
+    <div class="hero-copy reveal">
+      <span class="eyebrow">Kheen Junior School · Elite Village, Luwunga</span>
+      <h1>Faith, discipline &amp; discovery — built to last.</h1>
+      <p class="motto">"Wisdom for Legacy"</p>
+      <p class="lede">A Muslim junior school where every learner grows in Deen and knowledge together — guided in Qur'an and character, and equipped with real, hands-on skills for life.</p>
+      <div class="hero-loc">
+        <span class="star" style="width:14px;height:14px;"></span>
+        Elite Village, Luwunga, Kakiri Subcounty
+      </div>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-gold">Book a Visit</a>
+        <a href="#activities" class="btn btn-outline">See Student Life</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="wrap">
+      <div class="stat"><strong>Junior</strong><span>Level</span></div>
+      <div class="stat"><strong>Islamic</strong><span>Curriculum</span></div>
+      <div class="stat"><strong>8+</strong><span>Co-curriculars</span></div>
+      <div class="stat"><strong>Daily</strong><span>Transport</span></div>
+    </div>
+  </div>
+  <div class="lattice-divider"></div>
+</section>
+
+<!-- ============ ABOUT (photo panel + pillars) ============ -->
+<section class="sec" id="about">
+  <div class="wrap">
+    <div class="about-split">
+      <div class="about-frame reveal">
+        <!-- INSERT FRONT-OF-SCHOOL / CAMPUS PHOTO HERE — replace src -->
+        <img src="images/school.png" alt="Kheen Junior School campus" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="ph" style="display:none;">
+          <span class="star" style="width:30px;height:30px;"></span>
+          <span>Campus / front-of-school photo goes here</span>
+        </div>
+        <div class="cap">Elite Village · Luwunga · Kakiri Subcounty</div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Who we are</span>
+        <h2>Raising children on Deen, discipline and diligence.</h2>
+        <p class="lede">Kheen Junior School nurtures every learner in Islamic values while building strong academic and practical foundations — so that what they carry out of our gates becomes a legacy that outlives the classroom.</p>
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar-icon"><span class="star" style="width:20px;height:20px;"></span></div>
+            <h3>Deen First</h3>
+            <p>Daily Qur'an, Tajweed and Islamic studies woven into school life.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon"><span class="star" style="width:20px;height:20px;"></span></div>
+            <h3>Discipline</h3>
+            <p>Structured routines that build strong, respectful character.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon"><span class="star" style="width:20px;height:20px;"></span></div>
+            <h3>Hands-On Skill</h3>
+            <p>Practical projects — from the bakery to the garden.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon"><span class="star" style="width:20px;height:20px;"></span></div>
+            <h3>Community</h3>
+            <p>A close family rooted in Elite Village, Luwunga.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACTIVITIES ============ -->
+<section class="sec alt" id="activities">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Beyond the classroom</span>
+      <h2>Co-curricular &amp; hands-on activities</h2>
+      <p class="lede">Learning at Kheen doesn't stop at books. Our learners rotate through clubs and practical projects that build skill, confidence and teamwork.</p>
+    </div>
+
+    <div class="activity-grid">
+      <div class="a-card reveal">
+        <span class="num">01</span>
+        <div class="a-photo">
+          <!-- INSERT QUR'AN & TAJWEED PHOTO HERE — replace src -->
+          <img src="assets/activity-quran.jpg" alt="Qur'an & Tajweed Circle" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21h16M6 21V9l6-5 6 5v12M9 21v-6h6v6"/></svg></div>
+        </div>
+        <h3>Qur'an &amp; Tajweed Circle</h3>
+        <p>Daily memorisation and recitation practice in small, guided groups.</p>
+      </div>
+      <div class="a-card reveal">
+        <span class="num">02</span>
+        <div class="a-photo">
+          <!-- INSERT ARABIC CLUB PHOTO HERE — replace src -->
+          <img src="assets/activity-arabic.jpg" alt="Arabic Language Club" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h10M4 18h16"/></svg></div>
+        </div>
+        <h3>Arabic Language Club</h3>
+        <p>Building reading, writing and conversation skills in Arabic.</p>
+      </div>
+      <div class="a-card reveal">
+        <span class="num">03</span>
+        <div class="a-photo">
+          <!-- INSERT FOOTBALL/ATHLETICS PHOTO HERE — replace src -->
+          <img src="assets/activity-sports.jpg" alt="Football & Athletics" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
+        </div>
+        <h3>Football &amp; Athletics</h3>
+        <p>Inter-house leagues and track events that build fitness and teamwork.</p>
+      </div>
+      <div class="a-card reveal">
+        <span class="num">04</span>
+        <div class="a-photo">
+          <!-- INSERT DEBATE CLUB PHOTO HERE — replace src -->
+          <img src="assets/activity-debate.jpg" alt="Debate & Public Speaking" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6"/></svg></div>
+        </div>
+        <h3>Debate &amp; Public Speaking</h3>
+        <p>Weekly debates that sharpen confidence, logic and articulate speech.</p>
+      </div>
+      <div class="a-card reveal">
+        <span class="num">05</span>
+        <div class="a-photo">
+          <!-- INSERT ART & CALLIGRAPHY PHOTO HERE — replace src -->
+          <img src="assets/activity-art.jpg" alt="Art, Design & Calligraphy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 19c-4-3-8-6-8-10a4 4 0 0 1 8-2 4 4 0 0 1 8 2c0 4-4 7-8 10z"/></svg></div>
+        </div>
+        <h3>Art, Design &amp; Calligraphy</h3>
+        <p>Islamic calligraphy, pattern-drawing and craft projects.</p>
+      </div>
+      <div class="a-card reveal">
+        <span class="num">06</span>
+        <div class="a-photo">
+          <!-- INSERT SCIENCE & ROBOTICS PHOTO HERE — replace src -->
+          <img src="assets/activity-robotics.jpg" alt="Science & Robotics Club" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg></div>
+        </div>
+        <h3>Science &amp; Robotics Club</h3>
+        <p>Simple builds and experiments that turn curiosity into skill.</p>
+      </div>
+      <div class="a-card reveal">
+        <span class="num">07</span>
+        <div class="a-photo">
+          <!-- INSERT NASHEED CLUB PHOTO HERE — replace src -->
+          <img src="assets/activity-nasheed.jpg" alt="Nasheed Club" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v4M5 8h14l-1 12H6L5 8zM8 8V6a4 4 0 0 1 8 0v2"/></svg></div>
+        </div>
+        <h3>Nasheed Club</h3>
+        <p>Vocal Islamic nasheeds that celebrate faith without instruments.</p>
+      </div>
+      <div class="a-card reveal">
+        <span class="num">08</span>
+        <div class="a-photo">
+          <!-- INSERT GARDENING CLUB PHOTO HERE — replace src -->
+          <img src="assets/activity-garden.jpg" alt="Gardening & Environment Club" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v6M8 5l4 3 4-3M4 12h16M6 12l1 9h10l1-9"/></svg></div>
+        </div>
+        <h3>Gardening &amp; Environment Club</h3>
+        <p>Growing and tending real crops on the school's own plots.</p>
+      </div>
+    </div>
+
+    <!-- Bakery — flagship hands-on project -->
+    <div class="feature-strip reveal">
+      <div class="fs-photo">
+        <!-- INSERT BAKERY PROJECT PHOTO HERE — replace src -->
+        <img src="images/bakery.png" alt="Students in the school bakery project" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="ph" style="display:none;">
+          <span class="star" style="width:32px;height:32px;"></span>
+          <span>Bakery project photo goes here</span>
+        </div>
+      </div>
+      <div class="fs-copy">
+        <span class="eyebrow">Flagship hands-on project</span>
+        <h3>The Kheen Bakery</h3>
+        <p>Our learners run a real working bakery — measuring, mixing, baking and packaging their own bread, cakes and mandazi. It's mathematics, hygiene, teamwork and enterprise, all learned by doing.</p>
+        <div class="fs-list">
+          <span>Baking &amp; Pastry</span>
+          <span>Hygiene &amp; Safety</span>
+          <span>Costing &amp; Selling</span>
+          <span>Teamwork</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANSPORT ============ -->
+<section class="sec" id="transport">
+  <div class="wrap">
+    <div class="transport reveal">
+      <div>
+        <span class="eyebrow" style="color:var(--gold-soft);">Getting to school</span>
+        <h2>Safe, supervised school transport</h2>
+        <p class="lede">Kheen Junior School offers organised transport for learners across Kakiri Subcounty and surrounding areas, so parents can trust the journey as much as the classroom.</p>
+        <ul class="t-points">
+          <li><span class="dot"></span>Covers Elite Village, Luwunga and nearby routes in Kakiri Subcounty</li>
+          <li><span class="dot"></span>Supervised pick-up and drop-off with a dedicated attendant</li>
+          <li><span class="dot"></span>Punctual, consistent timing for morning and evening trips</li>
+          <li><span class="dot"></span>Route and fee enquiries handled directly by the school office</li>
+        </ul>
+      </div>
+      <div class="t-visual">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="7" width="17" height="10" rx="1.5"/><path d="M19 10h2.5L23 13v4h-2"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/><path d="M2 12h17"/></svg>
+        <p style="font-size:.84rem;">Ask about routes serving your area when you call the school office.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEADERSHIP ============ -->
+<section class="sec alt" id="leadership">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Our leadership</span>
+      <h2>The people guiding Kheen Junior School</h2>
+      <p class="lede">Steady leadership grounded in faith and experience, guiding staff and learners toward the school's motto every day.</p>
+    </div>
+    <div class="leaders">
+      <div class="leader reveal">
+        <div class="leader-frame">
+          <!-- INSERT DIRECTOR PHOTO HERE — replace src -->
+          <img src="images/director1.png" alt="School Director" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;">
+            <span class="star" style="width:28px;height:28px;"></span>
+            <span>Director photo</span>
+          </div>
+        </div>
+        <h3>PROF MUHAMMAD NGOMA</h3>
+        <div class="role">School Director</div>
+      </div>
+      <div class="leader reveal">
+        <div class="leader-frame">
+          <!-- INSERT DIRECTOR PHOTO HERE — replace src -->
+          <img src="images/new direct.png" alt="Deputy Director" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;">
+            <span class="star" style="width:28px;height:28px;"></span>
+            <span>Director photo</span>
+          </div>
+        </div>
+        <h3>DR RUQQAIYA NALUWOOZA</h3>
+        <div class="role">Director</div>
+      </div>
+      <div class="leader reveal">
+        <div class="leader-frame">
+          <!-- INSERT HEADTEACHER PHOTO HERE — replace src -->
+          <img src="images/new deputy.png" alt="Headteacher" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;">
+            <span class="star" style="width:28px;height:28px;"></span>
+            <span>Headteacher photo</span>
+          </div>
+        </div>
+        <h3>SHEIKH KIN NGOMA ABDURAHMAN</h3>
+        <div class="role">RESIDENT DIRECTOR</div>
+      </div>
+      <div class="leader reveal">
+        <div class="leader-frame">
+          <!-- INSERT DIRECTOR PHOTO HERE — replace src -->
+          <img src="images/new head.png" alt="School Director" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="ph" style="display:none;">
+            <span class="star" style="width:28px;height:28px;"></span>
+            <span>Director photo</span>
+          </div>
+        </div>
+        <h3>MR. SONGOLO UMAR</h3>
+        <div class="role">HEADMASTER</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STAFF ============ -->
+<section class="sec" id="staff">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Our teaching family</span>
+      <h2>Meet the staff of Kheen Junior School</h2>
+      <p class="lede">A dedicated team of teachers and support staff committed to every learner's growth in faith, character and knowledge.</p>
+    </div>
+    <div class="staff-frame reveal">
+      <!-- INSERT STAFF GROUP PHOTO HERE — replace src -->
+      <img src="images/staff.png" alt="Kheen Junior School staff group photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="ph" style="display:none;">
+        <span class="star" style="width:34px;height:34px;"></span>
+        <span>Staff group photo goes here</span>
+      </div>
+      <div class="cap">The Kheen Junior School Staff</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="sec alt" id="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Get in touch</span>
+      <h2>Visit us or give us a call</h2>
+      <p class="lede">Our office is happy to answer questions about admissions, transport routes and school life.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="c-cards reveal">
+        <div class="c-card">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <strong>Headteacher</strong>
+            <span><a class="num-link" href="tel:+256753100150">+256 753 100150</a></span>
+          </div>
+        </div>
+        <div class="c-card">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <strong>School Office</strong>
+            <span><a class="num-link" href="tel:+256703634440">+256 703 634440</a></span>
+          </div>
+        </div>
+        <div class="c-card">
+          <div class="ic">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <strong>Admissions &amp; Transport</strong>
+            <span><a class="num-link" href="tel:+256776420630">+256 776 420630</a></span>
+          </div>
+        </div>
+
+        <div class="socials">
+          <!-- INSERT SOCIAL MEDIA LINKS HERE — replace href="#" -->
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="X / Twitter">X</a>
+          <a href="#" aria-label="WhatsApp">WA</a>
+          <a href="#" aria-label="YouTube">YT</a>
+        </div>
+      </div>
+
+      <div class="map-card reveal">
+        <span class="star" style="width:26px;height:26px;"></span>
+        <h3>Kheen Junior School</h3>
+        <p>A Muslim junior school built on faith, discipline and hands-on learning — proudly serving Kakiri Subcounty.</p>
+        <div class="addr">
+          Elite Village, Luwunga<br>
+          Kakiri Subcounty, Uganda
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">
+          <div class="badge-slot" style="width:40px;height:40px;">
+            <!-- INSERT SCHOOL BADGE HERE — replace src -->
+            <img src="images/badge.png" alt="Kheen Junior School badge" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="fallback" style="display:none;font-size:.5rem;">BADGE</div>
+          </div>
+          <strong>Kheen Junior School</strong>
+        </div>
+        <p style="font-size:.86rem;max-width:32ch;">Elite Village, Luwunga, Kakiri Subcounty. "Wisdom for Legacy."</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#activities">Activities</a></li>
+          <li><a href="#transport">Transport</a></li>
+          <li><a href="#leadership">Leadership</a></li>
+          <li><a href="#staff">Staff</a></li>
+          <li><a href="gallery.html">Photo Gallery</a></li>
+          <li><a href="reviews.html">Reviews &amp; Messages</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>Headteacher: +256 753 100150</li>
+          <li>Office: +256 703 634440</li>
+          <li>Admissions: +256 776 420630</li>
+          <li>Elite Village, Luwunga, Kakiri Subcounty</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Kheen Junior School. All rights reserved.</span>
+      <span>Wisdom for Legacy</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photo Gallery — Kheen Junior School</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+  /* ============ TOKENS (shared with main site) ============ */
+  :root{
+    --deep-green:#0B3D2E;
+    --mid-green:#1F6E4F;
+    --leaf-green:#3F9463;
+    --sage-bg:#F1F5EE;
+    --cream:#FBF8F1;
+    --gold:#C9A227;
+    --gold-soft:#E4C766;
+    --ink:#152A1F;
+    --ink-soft:#4C5F53;
+    --line:#D9E2D4;
+    --display:'Fraunces', serif;
+    --body:'Manrope', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--body);color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 28px;}
+  section{position:relative;}
+  .eyebrow{font-family:var(--body);font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:.72rem;color:var(--mid-green);}
+  h1,h2,h3{font-family:var(--display);font-weight:600;color:var(--deep-green);letter-spacing:-.01em;}
+  .lede{color:var(--ink-soft);font-size:1.02rem;max-width:56ch;}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none;transition:none;} html{scroll-behavior:auto;} }
+
+  .star{
+    display:inline-block;width:1em;height:1em;
+    background: conic-gradient(from 22.5deg, var(--gold) 0 45deg, transparent 45deg 90deg),
+      conic-gradient(var(--gold) 0 45deg, transparent 45deg 90deg);
+    -webkit-mask: radial-gradient(circle, #000 55%, transparent 56%);
+    mask: radial-gradient(circle, #000 55%, transparent 56%);
+  }
+  .lattice-divider{
+    height:34px;background-repeat:repeat-x;background-size:34px 34px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%23C9A227' stroke-width='1'%3E%3Cpath d='M17 1 L33 17 L17 33 L1 17 Z'/%3E%3Cpath d='M17 8 L26 17 L17 26 L8 17 Z'/%3E%3C/g%3E%3C/svg%3E");
+    opacity:.55;
+  }
+
+  /* ============ HEADER ============ */
+  header{position:sticky;top:0;z-index:50;background:rgba(251,248,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1160px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .badge-slot{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:var(--deep-green);overflow:hidden;flex-shrink:0;}
+  .badge-slot img{width:100%;height:100%;object-fit:cover;}
+  .badge-slot .fallback{color:var(--gold-soft);font-size:.6rem;font-family:var(--body);font-weight:700;text-align:center;letter-spacing:.02em;}
+  .brand-name{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-name strong{font-family:var(--display);font-size:1.02rem;color:var(--deep-green);letter-spacing:.01em;}
+  .brand-name span{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+  nav.links{display:flex;gap:26px;}
+  nav.links a{font-size:.86rem;font-weight:600;color:var(--ink-soft);position:relative;padding:4px 0;}
+  nav.links a:hover, nav.links a.active{color:var(--deep-green);}
+  nav.links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--gold);transition:width .25s ease;}
+  nav.links a:hover::after, nav.links a.active::after{width:100%;}
+  .nav-cta{background:var(--deep-green);color:var(--cream);padding:9px 18px;border-radius:8px;font-size:.82rem;font-weight:700;border:1px solid var(--deep-green);}
+  .nav-cta:hover{background:var(--mid-green);border-color:var(--mid-green);}
+
+  /* ============ PAGE HERO ============ */
+  .page-hero{
+    background:radial-gradient(circle at 50% 0%, rgba(201,162,39,.14), transparent 45%),
+      linear-gradient(160deg, var(--deep-green) 0%, #0e4a37 55%, var(--mid-green) 100%);
+    color:var(--cream);padding:70px 0 46px;text-align:center;position:relative;overflow:hidden;
+  }
+  .page-hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23C9A227' stroke-width='.6' opacity='0.35'%3E%3Cpath d='M60 4 L116 60 L60 116 L4 60 Z'/%3E%3Cpath d='M60 26 L94 60 L60 94 L26 60 Z'/%3E%3Ccircle cx='60' cy='60' r='6'/%3E%3C/g%3E%3C/svg%3E");
+    background-size:120px 120px;opacity:.3;pointer-events:none;
+  }
+  .page-hero .inner{position:relative;z-index:2;max-width:640px;margin:0 auto;padding:0 28px;}
+  .page-hero .eyebrow{color:var(--gold-soft);}
+  .page-hero h1{color:var(--cream);font-size:clamp(2rem,4vw,2.8rem);margin:12px 0 10px;}
+  .page-hero p{color:#DCE9DF;font-size:.98rem;}
+
+  /* ============ SECTIONS ============ */
+  .sec{padding:64px 0;}
+  .sec-head{max-width:640px;margin:0 auto 36px;text-align:center;}
+  .sec-head h2{font-size:clamp(1.5rem,2.6vw,1.9rem);margin:8px 0 10px;}
+  .alt{background:var(--sage-bg);}
+
+  /* Album filter tabs */
+  .album-tabs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:40px;}
+  .album-tab{
+    padding:9px 18px;border-radius:20px;border:1.5px solid var(--line);
+    font-size:.82rem;font-weight:700;color:var(--ink-soft);background:var(--cream);
+    cursor:pointer;transition:all .2s ease;
+  }
+  .album-tab:hover{border-color:var(--leaf-green);color:var(--deep-green);}
+  .album-tab.active{background:var(--deep-green);border-color:var(--deep-green);color:var(--cream);}
+
+  /* Album groups */
+  .album-group{margin-bottom:56px;}
+  .album-group:last-child{margin-bottom:0;}
+  .album-group-head{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+  .album-group-head h3{font-size:1.2rem;}
+  .album-group-head .count{font-size:.78rem;color:var(--ink-soft);font-weight:700;background:var(--sage-bg);padding:4px 10px;border-radius:12px;}
+
+  .photo-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  }
+  .photo-grid.wide-first .g-item:first-child{grid-column:span 2;grid-row:span 2;}
+
+  .g-item{
+    position:relative;border-radius:14px;overflow:hidden;
+    aspect-ratio:1;background:var(--sage-bg);border:1px solid var(--line);
+    cursor:pointer;
+  }
+  .g-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+  .g-item:hover img{transform:scale(1.06);}
+  .g-item .ph{
+    width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:8px;color:var(--ink-soft);text-align:center;padding:14px;font-size:.72rem;font-weight:700;
+    letter-spacing:.03em;text-transform:uppercase;
+  }
+  .g-item .ph svg{width:26px;height:26px;color:var(--gold);}
+  .g-item .tag{
+    position:absolute;left:0;right:0;bottom:0;padding:10px 12px 8px;
+    background:linear-gradient(0deg, rgba(11,61,46,.85), transparent);
+    color:var(--cream);font-size:.72rem;font-weight:700;opacity:0;transition:opacity .25s ease;
+  }
+  .g-item:hover .tag{opacity:1;}
+
+  /* Lightbox */
+  .lightbox{
+    position:fixed;inset:0;background:rgba(11,25,18,.92);z-index:200;
+    display:none;align-items:center;justify-content:center;padding:30px;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox img{max-width:min(900px,92vw);max-height:82vh;border-radius:10px;border:2px solid var(--gold);}
+  .lightbox .lb-cap{color:var(--gold-soft);font-size:.86rem;margin-top:14px;text-align:center;font-weight:600;}
+  .lightbox .lb-close{
+    position:absolute;top:24px;right:28px;width:42px;height:42px;border-radius:50%;
+    border:1.5px solid var(--gold);color:var(--gold-soft);background:transparent;
+    font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .lightbox .lb-close:hover{background:var(--gold);color:var(--deep-green);}
+  .lightbox .lb-nav{
+    position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;
+    border:1.5px solid var(--gold);color:var(--gold-soft);background:rgba(0,0,0,.3);
+    font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .lightbox .lb-prev{left:20px;}
+  .lightbox .lb-next{right:20px;}
+  .lightbox .lb-nav:hover{background:var(--gold);color:var(--deep-green);}
+
+  /* CTA banner */
+  .cta-banner{
+    background:linear-gradient(135deg, var(--deep-green), var(--mid-green));
+    color:var(--cream);border-radius:20px;padding:40px 34px;text-align:center;
+  }
+  .cta-banner h2{color:var(--cream);font-size:1.5rem;margin-bottom:10px;}
+  .cta-banner p{color:#DCE9DF;font-size:.92rem;margin-bottom:20px;}
+  .btn{padding:12px 22px;border-radius:9px;font-weight:700;font-size:.88rem;display:inline-flex;align-items:center;gap:8px;transition:all .2s ease;}
+  .btn-gold{background:var(--gold);color:var(--deep-green);}
+  .btn-gold:hover{background:var(--gold-soft);transform:translateY(-2px);}
+
+  /* ============ FOOTER ============ */
+  footer{background:var(--deep-green);color:#BFDACB;padding:54px 0 26px;}
+  .foot-top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:36px;padding-bottom:36px;border-bottom:1px solid rgba(201,162,39,.2);}
+  .foot-brand{display:flex;gap:12px;align-items:center;margin-bottom:14px;}
+  .foot-brand strong{font-family:var(--display);color:var(--cream);font-size:1.05rem;}
+  footer h4{color:var(--gold-soft);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+  footer ul li{margin-bottom:9px;font-size:.86rem;}
+  footer ul li a:hover{color:var(--gold-soft);}
+  .foot-bottom{padding-top:22px;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:#8FB39D;flex-wrap:wrap;gap:10px;}
+
+  @media (max-width:920px){
+    nav.links{display:none;}
+    .photo-grid{grid-template-columns:repeat(3,1fr);}
+    .foot-top{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    .photo-grid{grid-template-columns:repeat(2,1fr);}
+    .photo-grid.wide-first .g-item:first-child{grid-column:span 2;grid-row:span 1;}
+    .sec{padding:48px 0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="badge-slot">
+        <img src="images/badge.png" alt="Kheen Junior School badge" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="fallback" style="display:none;">BADGE</div>
+      </div>
+      <div class="brand-name">
+        <strong>Kheen Junior School</strong>
+        <span>Wisdom for Legacy</span>
+      </div>
+    </div>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#activities">Activities</a>
+      <a href="gallery.html" class="active">Gallery</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <a href="index.html#contact" class="nav-cta">Enquire Now</a>
+  </div>
+</header>
+
+<!-- ============ PAGE HERO ============ -->
+<section class="page-hero">
+  <div class="inner">
+    <span class="eyebrow">School Album</span>
+    <h1>Photo Gallery</h1>
+    <p>Moments from graduation days, school events and everyday life at Kheen Junior School — Elite Village, Luwunga.</p>
+  </div>
+  <div class="lattice-divider" style="margin-top:36px;"></div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="sec">
+  <div class="wrap">
+
+    <!-- Filter tabs: purely visual grouping aid; each links down to its album -->
+    <div class="album-tabs">
+      <a href="#album-graduation" class="album-tab active">Graduation</a>
+      <a href="#album-bakery" class="album-tab">Bakery Day</a>
+      <a href="#album-sports" class="album-tab">Sports Day</a>
+      <a href="#album-quran" class="album-tab">Qur'an Day</a>
+      <a href="#album-trips" class="album-tab">Field Trips</a>
+      <a href="#album-events" class="album-tab">School Events</a>
+    </div>
+
+    <!-- GRADUATION ALBUM -->
+    <div class="album-group reveal" id="album-graduation">
+      <div class="album-group-head">
+        <span class="star" style="width:18px;height:18px;"></span>
+        <h3>Graduation</h3>
+        <span class="count">Add your photos</span>
+      </div>
+      <div class="photo-grid wide-first" data-gallery="graduation">
+        <!-- INSERT GRADUATION PHOTOS HERE — replace src on each. Add more .g-item blocks to add more photos. -->
+        <div class="g-item"><img src="images/biggrad1.png" alt="Graduation" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></svg>Photo 1</div><div class="tag">Graduation Day</div></div>
+        <div class="g-item"><img src="images/grad1.png" alt="Graduation" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></svg>Photo 2</div><div class="tag">Graduation Day</div></div>
+        <div class="g-item"><img src="images/grad2.png" alt="Graduation" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></svg>Photo 3</div><div class="tag">Graduation Day</div></div>
+        <div class="g-item"><img src="images/grad3.png" alt="Graduation" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></svg>Photo 4</div><div class="tag">Graduation Day</div></div>
+        <div class="g-item"><img src="images/grad4.png" alt="Graduation" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 10L12 5 2 10l10 5 10-5zM6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/></svg>Photo 5</div><div class="tag">Graduation Day</div></div>
+      </div>
+    </div>
+
+    <!-- BAKERY DAY ALBUM -->
+    <div class="album-group reveal" id="album-bakery">
+      <div class="album-group-head">
+        <span class="star" style="width:18px;height:18px;"></span>
+        <h3>Bakery Day</h3>
+        <span class="count">Add your photos</span>
+      </div>
+      <div class="photo-grid" data-gallery="bakery">
+        <!-- INSERT BAKERY PHOTOS HERE — replace src -->
+        <div class="g-item"><img src="images/bak1.png" alt="Bakery project" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6zM4 12a4 4 0 0 1 8-2 4 4 0 0 1 8 2"/></svg>Photo 1</div><div class="tag">Bakery Day</div></div>
+        <div class="g-item"><img src="images/bak2.png" alt="Bakery project" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6zM4 12a4 4 0 0 1 8-2 4 4 0 0 1 8 2"/></svg>Photo 2</div><div class="tag">Bakery Day</div></div>
+        <div class="g-item"><img src="images/bak3.png" alt="Bakery project" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6zM4 12a4 4 0 0 1 8-2 4 4 0 0 1 8 2"/></svg>Photo 3</div><div class="tag">Bakery Day</div></div>
+        <div class="g-item"><img src="images/bak4.png" alt="Bakery project" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6zM4 12a4 4 0 0 1 8-2 4 4 0 0 1 8 2"/></svg>Photo 4</div><div class="tag">Bakery Day</div></div>
+      </div>
+    </div>
+
+    <!-- SPORTS DAY ALBUM -->
+    <div class="album-group reveal" id="album-sports">
+      <div class="album-group-head">
+        <span class="star" style="width:18px;height:18px;"></span>
+        <h3>Co-Curricular Activities</h3>
+        <span class="count">Add your photos</span>
+      </div>
+      <div class="photo-grid" data-gallery="sports">
+        <!-- INSERT SPORTS DAY PHOTOS HERE — replace src -->
+        <div class="g-item"><img src="images/games.png" alt="Sports day" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>Photo 1</div><div class="tag">Sports Day</div></div>
+        <div class="g-item"><img src="images/game1.png" alt="Sports day" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>Photo 2</div><div class="tag">Sports Day</div></div>
+        <div class="g-item"><img src="images/game2.png" alt="Sports day" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>Photo 3</div><div class="tag">Sports Day</div></div>
+        <div class="g-item"><img src="images/game3.png" alt="Sports day" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>Photo 4</div><div class="tag">Sports Day</div></div>
+      </div>
+    </div>
+
+    <!-- QUR'AN DAY ALBUM -->
+    <div class="album-group reveal" id="album-quran">
+      <div class="album-group-head">
+        <span class="star" style="width:18px;height:18px;"></span>
+        <h3>Sports Day</h3>
+        <span class="count">Add your photos</span>
+      </div>
+      <div class="photo-grid" data-gallery="quran">
+        <!-- INSERT QUR'AN DAY PHOTOS HERE — replace src -->
+        <div class="g-item"><img src="images/game4.png" alt="Quran day" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21h16M6 21V9l6-5 6 5v12M9 21v-6h6v6"/></svg>Photo 1</div><div class="tag">Qur'an Day</div></div>
+        <div class="g-item"><img src="images/game5.png" alt="Quran day" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21h16M6 21V9l6-5 6 5v12M9 21v-6h6v6"/></svg>Photo 2</div><div class="tag">Qur'an Day</div></div>
+        <div class="g-item"><img src="images/game6.png" alt="Quran day" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21h16M6 21V9l6-5 6 5v12M9 21v-6h6v6"/></svg>Photo 3</div><div class="tag">Qur'an Day</div></div>
+        <div class="g-item"><img src="images/game8.png" alt="Quran day" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21h16M6 21V9l6-5 6 5v12M9 21v-6h6v6"/></svg>Photo 4</div><div class="tag">Qur'an Day</div></div>
+      </div>
+    </div>
+
+    <!-- FIELD TRIPS ALBUM -->
+    <div class="album-group reveal" id="album-trips">
+      <div class="album-group-head">
+        <span class="star" style="width:18px;height:18px;"></span>
+        <h3>Events & More</h3>
+        <span class="count">Add your photos</span>
+      </div>
+      <div class="photo-grid" data-gallery="trips">
+        <!-- INSERT FIELD TRIP PHOTOS HERE — replace src -->
+        <div class="g-item"><img src="images/bak4.png" alt="Field trip" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="17" height="10" rx="1.5"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg>Photo 1</div><div class="tag">Field Trip</div></div>
+        <div class="g-item"><img src="images/grad3.png" alt="Field trip" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="17" height="10" rx="1.5"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg>Photo 2</div><div class="tag">Field Trip</div></div>
+        <div class="g-item"><img src="images/game5.png" alt="Field trip" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="17" height="10" rx="1.5"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg>Photo 3</div><div class="tag">Field Trip</div></div>
+        <div class="g-item"><img src="images/bak2.png" alt="Field trip" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="7" width="17" height="10" rx="1.5"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg>Photo 4</div><div class="tag">Field Trip</div></div>
+      </div>
+    </div>
+
+    <!-- SCHOOL EVENTS ALBUM -->
+    <div class="album-group reveal" id="album-events">
+      <div class="album-group-head">
+        <span class="star" style="width:18px;height:18px;"></span>
+        <h3>School Events</h3>
+        <span class="count">Add your photos</span>
+      </div>
+      <div class="photo-grid" data-gallery="events">
+        <!-- INSERT GENERAL SCHOOL EVENT PHOTOS HERE — replace src -->
+        <div class="g-item"><img src="images/game7.png" alt="School event" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg>Photo 1</div><div class="tag">School Event</div></div>
+        <div class="g-item"><img src="images/games.png" alt="School event" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg>Photo 2</div><div class="tag">School Event</div></div>
+        <div class="g-item"><img src="images/game1.png" alt="School event" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg>Photo 3</div><div class="tag">School Event</div></div>
+        <div class="g-item"><img src="images/game4.png" alt="School event" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="ph" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg>Photo 4</div><div class="tag">School Event</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="sec alt">
+  <div class="wrap">
+    <div class="cta-banner reveal">
+      <h2>Want to see more of school life?</h2>
+      <p>Read what parents and visitors say about Kheen Junior School, or get in touch directly.</p>
+      <a href="reviews.html" class="btn btn-gold">Leave a Review</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">&#10005;</button>
+  <button class="lb-nav lb-prev" id="lbPrev">&#8249;</button>
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <img id="lbImg" src="" alt="">
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+  <button class="lb-nav lb-next" id="lbNext">&#8250;</button>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">
+          <div class="badge-slot" style="width:40px;height:40px;">
+            <img src="images/badge.png" alt="Kheen Junior School badge" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="fallback" style="display:none;font-size:.5rem;">BADGE</div>
+          </div>
+          <strong>Kheen Junior School</strong>
+        </div>
+        <p style="font-size:.86rem;max-width:32ch;">Elite Village, Luwunga, Kakiri Subcounty. "Wisdom for Legacy."</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="index.html#activities">Activities</a></li>
+          <li><a href="gallery.html">Photo Gallery</a></li>
+          <li><a href="reviews.html">Reviews &amp; Messages</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li>Headteacher: +256 753 100150</li>
+          <li>Office: +256 703 634440</li>
+          <li>Admissions: +256 776 420630</li>
+          <li>Elite Village, Luwunga, Kakiri Subcounty</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Kheen Junior School. All rights reserved.</span>
+      <span>Wisdom for Legacy</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // tabs just smooth-scroll + highlight (all albums stay visible on the page)
+  document.querySelectorAll('.album-tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.album-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // ---- Lightbox ----
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCap = document.getElementById('lbCap');
+  let currentGallery = [];
+  let currentIndex = 0;
+
+  function openLightbox(galleryItems, index){
+    currentGallery = galleryItems;
+    currentIndex = index;
+    showCurrent();
+    lightbox.classList.add('open');
+  }
+  function showCurrent(){
+    const item = currentGallery[currentIndex];
+    const img = item.querySelector('img');
+    const tag = item.querySelector('.tag');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lbCap.textContent = tag ? tag.textContent : '';
+  }
+  document.querySelectorAll('.photo-grid').forEach(grid=>{
+    const items = Array.from(grid.querySelectorAll('.g-item'));
+    items.forEach((item, idx)=>{
+      item.addEventListener('click', ()=> openLightbox(items, idx));
+    });
+  });
+  document.getElementById('lbClose').addEventListener('click', ()=> lightbox.classList.remove('open'));
+  document.getElementById('lbPrev').addEventListener('click', ()=>{
+    currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+    showCurrent();
+  });
+  document.getElementById('lbNext').addEventListener('click', ()=>{
+    currentIndex = (currentIndex + 1) % currentGallery.length;
+    showCurrent();
+  });
+  lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) lightbox.classList.remove('open'); });
+  document.addEventListener('keydown', (e)=>{
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape') lightbox.classList.remove('open');
+    if(e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
+    if(e.key === 'ArrowRight') document.getElementById('lbNext').click();
+  });
+</script>
+
+</body>
+</html>
